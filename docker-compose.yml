@@ -1,0 +1,38 @@
+---
+version: "2"
+
+services:
+  lb:
+    build: lb
+    ports:
+      - "80:80"
+    networks:
+      lb_default:
+        ipv4_address: 172.19.0.2
+  web1:
+    build: web1
+    networks:
+      lb_default:
+        ipv4_address: 172.19.0.3
+
+  web2:
+    build: web2
+    networks:
+      lb_default:
+        ipv4_address: 172.19.0.4
+  
+  web3:
+    build: web3
+    networks:
+      lb_default:
+        ipv4_address: 172.19.0.5
+
+networks:
+  lb_default:
+    driver: bridge
+#    enable_ipv6: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.19.0.0/24
+          gateway: 172.19.0.1
